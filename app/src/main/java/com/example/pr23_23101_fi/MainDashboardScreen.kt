@@ -1,71 +1,55 @@
 package com.example.pr23_23101_fi
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Analytics
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
-data class BottomNavItem(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector)
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun MainDashboardScreen() {
-    val navItems = listOf(
-        BottomNavItem("Анализы", Icons.Default.Analytics),
-        BottomNavItem("История", Icons.Default.History),
-        BottomNavItem("Профиль", Icons.Default.Person)
-    )
+    var selectedTab by remember { mutableIntStateOf(0) }
 
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val tabs = listOf(
+        Pair("Анализы", Icons.Default.Analytics),
+        Pair("Результаты", Icons.Default.Description),
+        Pair("Поддержка", Icons.Default.HeadsetMic),
+        Pair("Профиль", Icons.Default.Person)
+    )
 
     Scaffold(
         bottomBar = {
             NavigationBar(
                 containerColor = Color.White,
-                contentColor = Color(0xFF4A90E2)
+                contentColor = Color(0xFF0560FA)
             ) {
-                navItems.forEachIndexed { index, item ->
+                tabs.forEachIndexed { index, item ->
                     NavigationBarItem(
-                        icon = { Icon(item.icon, contentDescription = item.title) },
-                        label = { Text(item.title) },
-                        selected = selectedTabIndex == index,
-                        onClick = { selectedTabIndex = index },
+                        icon = { Icon(item.second, contentDescription = item.first) },
+                        label = { Text(item.first, fontSize = 10.sp) },
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF4A90E2),
+                            selectedIconColor = Color(0xFF0560FA),
                             unselectedIconColor = Color.Gray,
-                            selectedTextColor = Color(0xFF4A90E2),
-                            unselectedTextColor = Color.Gray,
-                            indicatorColor = Color(0xFFE3F2FD)
+                            selectedTextColor = Color(0xFF0560FA),
+                            unselectedTextColor = Color.Gray
                         )
                     )
                 }
             }
         }
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            when (selectedTabIndex) {
+        Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+            when (selectedTab) {
                 0 -> AnalysesScreen()
-                1 -> EmptyPlaceholderScreen("История заказов (Пусто)")
-                2 -> EmptyPlaceholderScreen("Профиль пациента (Пусто)")
+                else -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("Экран в разработке", color = Color.Gray)
+                }
             }
         }
     }

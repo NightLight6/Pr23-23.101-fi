@@ -72,6 +72,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     //noinspection UseTomlInstead
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation(libs.androidx.compose.remote.creation.core)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
